@@ -1,0 +1,91 @@
+{% extends 'bootstrap/base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block styles %}
+    {{super()}}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
+{% endblock %}
+
+
+{% include 'nav.html' %}
+
+
+
+{% block content %}
+
+<!-- <h1> Home </h1> -->
+
+<div class="container">
+
+    <h3 class="">Catalog</h3>
+
+    <table class="table mt-4">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Description</th>
+            <th scope="col">Category</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Unique Tag</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+
+          {% for i in data.body %}
+            <tr class="{{getRowColor(i.quantity)}}">
+              <th> {{ i.id }}</th>
+              <td><a href="#" onClick="setFormEdit({{i}}, this.parentElement.parentElement)">{{ i.name }}</a></td>
+              <td> $ {{ i.price }}</td>
+              <td>{{ i.description }}</td>
+              <td> {{ i.category }}</td>
+              <td><!-- a href="#" onClick="quickQuantitiChange({{i}}, this.parentElement.parentElement)">{{ i.quantity }}</a-->{{ i.quantity }}</td>
+              <td>{{ i.unique_tag }}</td>
+              <td>
+                <a href="#" onClick="deleteProduct({{i}}, this.parentElement.parentElement)">
+                  <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill text-danger" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
+                  </svg>
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+
+        </tbody>
+      </table>
+
+    <section class="table-buttons">
+        <button id="btnNewProd" class="btn btn-sm btn-outline-success">New Product</button>
+        <!-- <button id="btnEditProd" class="btn btn-sm btn-outline-info">Edit Product</button> -->
+        <!-- <button id="btnModifProd" class="btn btn-sm btn-outline-info">Quick Modify Qunatity</button> -->
+        <!-- <button id="btnDelProd" class="btn btn-sm btn-outline-danger">Delete Product</button> -->
+    </section>
+
+</div>
+
+
+<div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="formModalLabel">New message</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{ wtf.quick_form(form) }}
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-outline-success">Save</button>
+      </div> -->
+    </div>
+  </div>
+</div>
+
+<script src="{{url_for('static', filename='js/main.js')}}"></script>
+
+{% endblock %}

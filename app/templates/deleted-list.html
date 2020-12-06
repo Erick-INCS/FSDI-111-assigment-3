@@ -1,0 +1,62 @@
+{% extends 'bootstrap/base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block styles %}
+    {{super()}}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
+{% endblock %}
+
+
+{% include 'nav.html' %}
+
+
+
+{% block content %}
+
+<div class="container">
+
+    <h3 class="">Deleted products</h3>
+
+    <table class="table mt-4">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Description</th>
+            <th scope="col">Category</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Unique Tag</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+
+          {% for i in data.body %}
+            <tr>
+              <th> {{ i.id }}</th>
+              <td>{{ i.name }}</td>
+              <td> $ {{ i.price }}</td>
+              <td>{{ i.description }}</td>
+              <td> {{ i.category }}</td>
+              <td>{{ i.quantity }}</td>
+              <td>{{ i.unique_tag }}</td>
+              <td>
+                <a href="#" class="btn btn-sm btn-outline-success" onClick="reactivateProduct({{i}}, this.parentElement.parentElement)">
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-capslock-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M7.27 1.047a1 1 0 0 1 1.46 0l6.345 6.77c.6.638.146 1.683-.73 1.683H11.5v1a1 1 0 0 1-1 1h-5a1 1 0 0 1-1-1v-1H1.654C.78 9.5.326 8.455.924 7.816L7.27 1.047zM4.5 13.5a1 1 0 0 1 1-1h5a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1h-5a1 1 0 0 1-1-1v-1z"/>
+                    </svg>
+                    Reactivate
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+</div>
+
+
+<script src="{{url_for('static', filename='js/deleted-list.js')}}"></script>
+
+{% endblock %}
